@@ -16,7 +16,7 @@ To create the callgraph, follow the instructions to buiild the java program.  Th
 where $DIRECTORY_NAME is the name of the directory containing the jar files you want to analyze.
 This will generate a callgraph, cgraph.txt in the call_graph directory.
 
-After doing any processing of the callgraph using our juypter notebook data processing code which is available on google colab at https://drive.google.com/drive/folders/1nIaXadQy-wEovO_0Qc-0330u7ISVEF3u?usp=sharing 
+After doing any processing of the callgraph using our juypter notebook data processing code which is available on google colab at https://drive.google.com/drive/folders/1nIaXadQy-wEovO_0Qc-0330u7ISVEF3u?usp=sharing
 ## Hyperbolic K-Means
 You can use HGCN to generate hyperbolic embeddings for K-Means using the following command after navigating to the HGCN directory
 
