@@ -1,0 +1,6 @@
+
+cython==0.29.21
+networkx==2.2
+numpy==1.19.2
+
+tqdm==4.31.1
