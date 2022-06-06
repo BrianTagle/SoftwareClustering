@@ -26,7 +26,7 @@ python train.py --task rec --dataset junit --model Shallow --manifold PoincareBa
 ```
 
 You can also use HCGN   to generate the euclidean embeddings using the following command
-
+```
 python train.py --task rec --dataset junit --model Shallow --manifold Euclidean --lr 0.01 --weight-decay 0.0005 --dim 16 --num-layers 0 --use-feats 0 --dropout 0.2 --act None --bias 0 --optimizer Adam --cuda -1 --test-prop 0 --val-prop 0 --save 1 --epochs 1500
 ```
 You can change the dimensionality of the embedding by changing the --dim argument
