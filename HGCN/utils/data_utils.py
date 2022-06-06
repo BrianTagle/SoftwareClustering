@@ -139,8 +139,8 @@ def load_data_lp(dataset, use_feats, data_path):
         adj, features = load_data_airport(dataset, data_path, return_label=False)
     elif dataset == 'linux':
         adj, features = load_data_linux(data_path)
-    elif dataset == 'junit':
-        adj, features = load_data_junit(data_path)
+    elif dataset == 'junit' or dataset=='guava':
+        adj, features, _ = load_data_junit(data_path)
     elif dataset.split('_')[0] == 'twitter':
     	adj, features = load_twitter_data(data_path, use_feats)[:2]
         #adj, features = load_twitter_dataV2(dataset, data_path)[:2] #if you want to use Brian's code
@@ -172,6 +172,9 @@ def load_data_nc(dataset, use_feats, data_path, split_seed):
         elif dataset == 'lym':
             adj, features, labels = load_lym_data(data_path)
             val_prop, test_prop = 0.25, 0.25
+        elif dataset == 'junit':
+        	adj, features, labels = load_data_junit(data_path)
+        	val_prop, test_prop = 0.05, 0.05
         else:
             raise FileNotFoundError('Dataset {} is not supported.'.format(dataset))
         idx_val, idx_test, idx_train = split_data(labels, val_prop, test_prop, seed=split_seed)
@@ -287,7 +290,39 @@ def load_data_junit(data_path):
 
     print(features.shape)
     
-    return sp.csr_matrix(adj), features
+    junit_module_list = [
+               "org.junit.platform.commons",
+               "org.junit.platform.console",
+               "org.junit.platform.console-standalone",
+               "org.junit.platform.engine",
+               "org.junit.platform.jfr",
+               "org.junit.platform.launcher",
+               "org.junit.platform.reporting",
+               "org.junit.platform.runner",
+               "org.junit.platform.suite",
+               "org.junit.platform.suite-api",
+               "org.junit.platform.suite-commons",
+               "org.junit.platform.suite-engine",
+               "org.junit.platform.testkit",
+
+               "org.junit.jupiter",
+               "org.junit.jupiter.api",
+               "org.junit.jupiter.engine",
+               "org.junit.jupiter.params",
+               "org.junit.jupiter.migrationsupport",
+
+               "org.junit.vintage.engine"
+
+    ]
+    
+    idx_to_object= {v: k for k, v in object_to_idx.items()}
+    labels = np.zeros(adj.shape[0])
+    for node_num in range(adj.shape[0]):
+        for module in junit_module_list:
+            if module in idx_to_object[node_num]:
+                labels[node_num] = junit_module_list.index(module)
+    
+    return sp.csr_matrix(adj), features, labels
 
 def load_data_linux(data_path):
     object_to_idx = {}
