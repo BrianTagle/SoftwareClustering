@@ -1,39 +1,4 @@
-# EGCN (Euclidean) vs HGCN (Hyperbolic)
-For now, our only changes to the original hgcn repo is the Twitter data (taken from Patricia's TIMME repo) and the proper data loading function in `data_utils.py`.
 
-## Setting up our 249 project
-Basically follow the instructions in the original hgcn repo's README (copied below the horizontal line). The following worked for me with Python v. 3.8.5:
-
-1.
-  ```
-  conda env create -f boop.yml -n conda_env
-  ```
-  `boop.yml` is my version of their `environment.yml` with all the problematic packages under the `pip` section. You might end up with a bunch of unresolved packages, but you can still run the commands as long as the `conda_env` directory was created. To verify this, you can run `conda activate conda_env` and it should work.
-
-2.
-  ```
-  source set_env.sh
-  ```
-
-3. You should now be able to run the following commands to perform our desired downstream tasks.
-
-  ### GCN
-  |Node Classification | Link Prediction|
-  --- | ---|
-  |`python train.py --task nc --dataset twitter --model GCN --dim 16 --lr 0.01 --dim 16 --num-layers 2 --act relu --bias 1 --dropout 0 --weight-decay 0 --manifold Euclidean --log-freq 5 --epochs=200`|`python train.py --task lp --dataset twitter --model GCN --dim 16 --lr 0.01 --dim 16 --num-layers 2 --act relu --bias 1 --dropout 0 --weight-decay 0 --manifold Euclidean --log-freq 5 --epochs=200`|
-
-  ### HGCN
-  |Model Type |Node Classification  | Link Prediction|
-  |--- | --- | ---|
-  |**Hyperboloid**| `python train.py --task nc --dataset twitter --model HGCN --dim 16 --lr 0.01 --dim 16 --num-layers 2 --act relu --bias 1 --dropout 0 --weight-decay 0 --manifold Hyperboloid --log-freq 5 --epochs=200`|`python train.py --task lp --dataset twitter --model HGCN --dim 16 --lr 0.01 --dim 16 --num-layers 2 --act relu --bias 1 --dropout 0 --weight-decay 0 --manifold Hyperboloid --log-freq 5 --epochs=200`|
-  |**Poincare Ball**| `python train.py --task nc --dataset twitter --model HGCN --dim 16 --lr 0.01 --dim 16 --num-layers 2 --act relu --bias 1 --dropout 0 --weight-decay 0 --manifold PoincareBall --log-freq 5 --epochs=200`|`python train.py --task lp --dataset twitter --model HGCN --dim 16 --lr 0.01 --dim 16 --num-layers 2 --act relu --bias 1 --dropout 0 --weight-decay 0 --manifold PoincareBall --log-freq 5 --epochs=200`|
-
-  **If you have a problem juggling different Python versions, you could replace `python` in each command with the conda environment's Python version: `<PATH_TO_CONDA_ENV>/conda_env/bin/python3`.**
-
-  The node classification tasks achieved around 50% accuracy, which is expected since the node features are just an identity matrix. The link prediction tasks seem to yield far better results.
-
-------------------------------------------------------------
-*The original hgcn repo's README*
 
 Hyperbolic Graph Convolutional Networks in PyTorch
 ==================================================
